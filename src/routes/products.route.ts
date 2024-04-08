@@ -1,25 +1,16 @@
 import { Router } from "express";
-import { products } from "../data/products.data";
-
+import {
+  getProducts,
+  getProductById,
+  eliminatedProduct,
+  upToDateProduct,
+  addProduct,
+} from "../controller/product.controller";
 
 export const router = Router();
 
-router.get("/", (req, res) => {
-    res.json("Product");
-});
-
-router.get("/:id", (req, res) => {
-    res.json("Product");
-});
-
-router.post("/", (req, res) => {
-    res.send("Product");
-});
-
-router.put("/:id", (req, res) => {
-    res.send("Product");
-});
-
-router.delete("/:id", (req, res) => {
-    res.send("Product");
-});
+router.get("/", getProducts);
+router.get("/:id", getProductById);
+router.post("/", addProduct);
+router.put("/:id", upToDateProduct);
+router.delete("/:id", eliminatedProduct);
