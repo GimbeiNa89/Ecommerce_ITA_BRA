@@ -4,21 +4,16 @@ import { router as productsApi } from "./routes/products.route";
 import { router as ordersApi } from "./routes/orders.route";
 import { router as cartsApi } from "./routes/carts.route";
 
-
-export const app = express();
-
+const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-	res.json({ message: "Server is online" });
-});
-
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+  res.json({ message: "SERVER IS RUNNING!" });
 });
 
 app.use("/user", usersApi);
 app.use("/product", productsApi);
 app.use("/order", ordersApi);
-app.use("/cart", cartsApi );
+app.use("/cart", cartsApi);
 
+export default app;
