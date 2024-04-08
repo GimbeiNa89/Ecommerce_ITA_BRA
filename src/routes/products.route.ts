@@ -5,11 +5,11 @@ import { products } from "../data/products.data";
 export const router = Router();
 
 router.get("/", (req, res) => {
-    res.json(products);
+    res.json("Product");
 });
 
 router.get("/:id", (req, res) => {
-    res.json()
+    res.json("Product");
 });
 
 router.post("/", (req, res) => {

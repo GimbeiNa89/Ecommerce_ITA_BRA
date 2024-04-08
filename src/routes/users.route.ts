@@ -1,10 +1,9 @@
 import { Router } from "express";
+import {findAllUsers} from "../controller/user.controller";
 
 export const router = Router();
 
-router.get("/", (req, res) => {
-    res.send("Users");
-});
+router.get("/", findAllUsers);
 
 router.get("/:id", (req, res) => {
     res.send("User");

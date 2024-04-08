@@ -9,15 +9,16 @@ const orderSchema = new mongoose.Schema<IOrder>(
         type: String,
         required: true
     },
-    userId: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
-    products: {
+    products: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: true
-    },
+    }],
     total: {
         type: Number,
         required: true
