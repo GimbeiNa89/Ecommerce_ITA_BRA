@@ -7,6 +7,7 @@ import {
   updateOrderServ,
 } from "../services/orders.service";
 import { IOrder } from "../interfaces/order.interface";
+import { showCartByUserId } from "../services/cart.service";
 
 export const findAllOrders = async (req: Request, res: Response) => {
   const orders = await showOrders();
@@ -43,9 +44,29 @@ export const findSpecificOrder = async (req: Request, res: Response) => {
 };
 
 export const createNewOrder = async (req: Request, res: Response) => {
-  const newOrder = await addNewOrder(req.body);
+  // recupero l'id dell'utente dalla richiesta
+  const userId = req.body.user_id;
+  // per l'utente recupero il carrello
+  const cart = await showCartByUserId(userId);
+  // per ogni prodotto nel carrello:
+  // recupero il prezzo del prodotto
+  for (const product of cart.products) {
+    const somma = product.price * product.quantity
+    product.price= somma+product.price;
+  }
+  // sommo il totale con il prezzo del prodotto moltiplicato per la quantità specificata
+  // recupero l'indirizzo e il metodo di spedizione dalla richiesta
+
+  const newOrder: IOrder = {
+    user_id: req.body.user_id,
+    // status: creato
+  };
+
+  // salvo l'ordine nel DB mongo
+  // cancello il cart corrispondente all'utente o, in alternativa, 'svuoto' il carrello attuale dell'utente
+  // restituisco l'ordine creato in JSON
   try {
-    res.status(200).json(newOrder);
+    res.status(200).json();
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

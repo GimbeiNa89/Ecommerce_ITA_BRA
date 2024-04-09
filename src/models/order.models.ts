@@ -11,13 +11,13 @@ const orderSchema = new mongoose.Schema<IOrder>(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "userModel",
       required: true,
     },
     products: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
+        ref: "productModel",
         required: true,
       },
     ],

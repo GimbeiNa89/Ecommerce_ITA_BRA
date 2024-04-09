@@ -4,6 +4,11 @@ import { IUser } from "../interfaces/user.interface";
 import { findByKey } from "../services/auth.service";
 import { addNewUser } from "../services/users.service";
 import { createNewToken } from "../creationToken";
+import { findByEmail } from "../services/auth.service";
+import { createRefreshToken } from "../services/auth.service";
+import { verifyRefreshToken } from "../services/auth.service";
+import { createAccessToken } from "../services/auth.service";
+
 import bcrypt from "bcrypt";
 
 export const signup = async (req: Request, res: Response) => {
@@ -29,22 +34,40 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const user = req.body as { email: string; password: string }; //chiedo in entrata email e password
-  // console.log("req User", user); test
-  const userByEmail = await findByKey(user.email); //il metodo findOne() restituisce null se non trova corrispondenza
-  // console.log("user By Email", userByEmail); test
-  if (!userByEmail) {
-    //perciò se è null restituisce status(400)
+  const { email, password, refreshToken } = req.body;
+
+  const userByEmail = await findByEmail(email);
+
+  if (!userByEmail || userByEmail.password !== password) {
     return res.status(400).json({ message: "Wrong email or password" });
   }
-  if (userByEmail.password !== user.password) {
-    //se trova corrispondenza restituisce tutto l'oggetto, per cui è possibile richiamare la password visto che è una chiave valore dell'user
-    return res.status(400).json({ message: "Wrong email or password" });
+
+  // Genera un nuovo refreshToken per questo login
+  const newRefreshToken = createRefreshToken(userByEmail.id);
+
+  // Verifica il refreshToken solo se è stato fornito nella richiesta
+  if (refreshToken) {
+    try {
+      // Verifica la validità del refreshToken
+      const decoded = verifyRefreshToken(refreshToken);
+
+      // Controlla che l'ID dell'utente associato al refreshToken sia lo stesso dell'utente che sta cercando di eseguire il login
+      // if (decoded.userId !== userByEmail.id) {
+      //   throw new Error("Invalid refreshToken");
+      // }
+    } catch (err) {
+      return res.status(400).json({ message: "Invalid refreshToken" });
+    }
   }
-  try {
-    const token = createNewToken(userByEmail.id!, 30);
-    return res.status(200).json({ user: userByEmail, token });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
+
+  // Se tutte le verifiche sono passate, genera un nuovo token di accesso
+  const accessToken = createAccessToken(userByEmail.id);
+
+  return res
+    .status(200)
+    .json({ user: userByEmail, accessToken, refreshToken: newRefreshToken });
+};
+
+export const logout = async (req: Request, res: Response) => {
+  res.status(200).json({ message: "Logout successfully" });
 };

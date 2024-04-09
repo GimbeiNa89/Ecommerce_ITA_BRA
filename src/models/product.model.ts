@@ -11,7 +11,7 @@ const productSchema = new Mongoose.Schema<IProduct>(
       type: String,
       required: true,
     },
-    image: {
+    imageURL: {
       type: String,
       required: true,
     },
