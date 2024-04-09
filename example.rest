@@ -1,0 +1,7 @@
+POST http://localhost:3000/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+    "userId": "661543f2cb7b2271c043b7fa"
+}

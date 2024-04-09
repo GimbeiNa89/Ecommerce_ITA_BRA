@@ -8,6 +8,9 @@ import {
 } from "../services/orders.service";
 import { IOrder } from "../interfaces/order.interface";
 import { showCartByUserId } from "../services/cart.service";
+import { productModel } from "../models/product.model";
+import { showProductById } from "../services/products.service";
+import { showUserById } from "../services/users.service";
 
 export const findAllOrders = async (req: Request, res: Response) => {
   const orders = await showOrders();
@@ -45,28 +48,49 @@ export const findSpecificOrder = async (req: Request, res: Response) => {
 
 export const createNewOrder = async (req: Request, res: Response) => {
   // recupero l'id dell'utente dalla richiesta
-  const userId = req.body.user_id;
+  const userId = req.body.userId;
+  console.log(req.body);
+  const user = await showUserById(userId);
+  if (!user) {
+    throw new Error(`User with id ${userId} not found`);
+  }
+  console.log(user);
+
   // per l'utente recupero il carrello
-  const cart = await showCartByUserId(userId);
+  const cart = await showCartByUserId(user.id);
   // per ogni prodotto nel carrello:
   // recupero il prezzo del prodotto
-  for (const product of cart.products) {
-    const somma = product.price * product.quantity
-    product.price= somma+product.price;
+  let totalOrderAmount = 0.0;
+  if (!cart) {
+    console.error('Cart o cart.products è null o non definito.');
+    return res.status(404).json({ message: 'Cart o cart.products è null o non definito.' });
   }
+  for (const productId of cart.products) {
+    const product = await showProductById(productId.toString());
+    if (!product) {
+      throw new Error(`Product with id ${productId} not found`);
+    }
+    totalOrderAmount += product.price;
+  }
+ 
   // sommo il totale con il prezzo del prodotto moltiplicato per la quantità specificata
   // recupero l'indirizzo e il metodo di spedizione dalla richiesta
 
   const newOrder: IOrder = {
-    user_id: req.body.user_id,
+    user: userId,
+    products: cart!.products,
+    cart: cart!.id,
+    total: totalOrderAmount,
+    status: "created"
     // status: creato
   };
-
   // salvo l'ordine nel DB mongo
+  await addNewOrder(newOrder);
+
   // cancello il cart corrispondente all'utente o, in alternativa, 'svuoto' il carrello attuale dell'utente
   // restituisco l'ordine creato in JSON
   try {
-    res.status(200).json();
+    res.status(200).json(newOrder);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

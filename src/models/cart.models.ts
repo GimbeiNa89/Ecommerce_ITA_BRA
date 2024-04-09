@@ -9,7 +9,7 @@ const cartSchema = new mongoose.Schema<ICart>(
       ref: "userModel",
       required: true,
     },
-    products: [
+    products: [ // Questo è inutile, abbiamo deciso di usare un array di objectID (vedi ICart)
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
