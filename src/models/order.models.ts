@@ -1,29 +1,32 @@
 import { Mongoose } from "mongoose";
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-import { IOrder } from "../interface/orders.interface";
+import { IOrder } from "../interfaces/order.interface";
 
 const orderSchema = new mongoose.Schema<IOrder>(
-    {
-    id : {
-        type: String,
-        required: true
+  {
+    id: {
+      type: String,
+      required: true,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    products: [{
+    products: [
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
-        required: true
-    }],
+        required: true,
+      },
+    ],
     total: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
-}, { timestamps: true}
+  },
+  { timestamps: true }
 );
 
-export const orderModel = mongoose.model("orderModel", orderSchema)
+export const orderModel = mongoose.model("orderModel", orderSchema);

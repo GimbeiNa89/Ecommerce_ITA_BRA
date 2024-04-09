@@ -1,6 +1,6 @@
 import { Mongoose } from "mongoose";
 import mongoose from "mongoose";
-import { ICart } from "../interface/carts.interface";
+import { ICart } from "../interfaces/cart.interface";
 
 const cartSchema = new mongoose.Schema<ICart>(
   {

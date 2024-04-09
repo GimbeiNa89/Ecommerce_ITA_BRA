@@ -1,6 +1,6 @@
 import { Mongoose } from "mongoose";
 import mongoose from "mongoose";
-import { IUser } from "../interface/user.interface";
+import { IUser } from "../interfaces/user.interface";
 
 const userSchema = new mongoose.Schema<IUser>(
   {
@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema<IUser>(
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   { timestamps: true }

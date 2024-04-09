@@ -1,4 +1,4 @@
-import { IUser } from "../interface/user.interface";
+import { IUser } from "../interfaces/user.interface";
 import { userModel } from "../models/user.model";
 
 export const showUsers = async (): Promise<IUser[]> => {
@@ -17,7 +17,7 @@ export const deleteUser = async (id: string): Promise<IUser | null> => {
   return await userModel.findByIdAndDelete(id);
 };
 
-export const updateUser = async (
+export const updateUserServ = async (
   id: string,
   user: Partial<IUser>
 ): Promise<IUser | null> => {

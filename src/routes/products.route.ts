@@ -5,7 +5,7 @@ import {
   eliminatedProduct,
   upToDateProduct,
   addProduct,
-} from "../controller/product.controller";
+} from "../controllers/product.controller";
 
 export const router = Router();
 

@@ -5,7 +5,7 @@ import {
   eliminateOrder,
   findSpecificOrder,
   createNewOrder,
-} from "../controller/order.controller";
+} from "../controllers/order.controller";
 
 export const router = Router();
 

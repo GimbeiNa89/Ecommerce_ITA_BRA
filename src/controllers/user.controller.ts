@@ -1,5 +1,14 @@
-import { addNewUser, deleteUser, showUserById, showUsers, updateUser } from "../service/user.service";
+import { IUser } from "../interfaces/user.interface";
+import {
+  addNewUser,
+  deleteUser,
+  showUserById,
+  showUsers,
+  updateUserServ,
+} from "../services/users.service";
+
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 
 export const findAllUsers = async (req: Request, res: Response) => {
   const users = await showUsers();
@@ -20,7 +29,12 @@ export const findUserById = async (req: Request, res: Response) => {
 };
 
 export const addNewUserHandler = async (req: Request, res: Response) => {
-  const newUser = await addNewUser(req.body);
+  // const salt = bcrypt.genSalt(); il salt viene generato mettendo 10 come secondo parametro
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  // console.log(salt);
+  // console.log(hashedPassword);
+  const user: IUser = { ...req.body, password: hashedPassword };
+  const newUser: IUser = await addNewUser(user);
   try {
     res.status(200).json({ message: "new user added", newUser });
   } catch (error) {
@@ -29,18 +43,18 @@ export const addNewUserHandler = async (req: Request, res: Response) => {
 };
 
 export const deleteUserHandler = async (req: Request, res: Response) => {
-  const userToKill = await deleteUser(req.params.id);
+  const userToElim = await deleteUser(req.params.id);
   try {
-    res.status(200).json(userToKill);
+    res.status(200).json(userToElim);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
 export const updateUserHandler = async (req: Request, res: Response) => {
-  const upgradeUser = await updateUser(req.params.id, req.body);
+  const updateUser = await updateUserServ(req.params.id, req.body);
   try {
-    res.status(200).json(upgradeUser);
+    res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).json(error);
   }

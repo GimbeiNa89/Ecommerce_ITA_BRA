@@ -5,7 +5,7 @@ import {
   deleteUserHandler,
   updateUserHandler,
   addNewUserHandler,
-} from "../controller/user.controller";
+} from "../controllers/user.controller";
 
 export const router = Router();
 

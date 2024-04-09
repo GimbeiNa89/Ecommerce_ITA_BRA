@@ -1,4 +1,4 @@
-import { IProduct } from "../interface/product.interface";
+import { IProduct } from "../interfaces/product.interface";
 import { Request, Response } from "express";
 import {
   deleteProduct,
@@ -6,7 +6,7 @@ import {
   showProducts,
   showProductById,
   updateProduct,
-} from "../service/product.service";
+} from "../services/products.service";
 
 export const getProductById = async (req: Request, res: Response) => {
   try {
