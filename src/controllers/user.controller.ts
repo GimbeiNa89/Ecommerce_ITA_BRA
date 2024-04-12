@@ -43,8 +43,7 @@ export const addNewUserHandler = async (req: Request, res: Response) => {
   }
   // console.log(salt);
   // console.log(hashedPassword);
-  const user: IUser = { ...req.body, password: hashedPassword };
-  const newUser: IUser = await addNewUser(user);
+  const newUser: IUser = await addNewUser({ ...req.body, password: hashedPassword });
   try {
     res.status(200).json({ message: "new user added", newUser });
   } catch (error) {

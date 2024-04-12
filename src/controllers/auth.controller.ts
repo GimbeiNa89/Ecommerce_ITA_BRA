@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { IUser } from "../interfaces/user.interface";
 import { findByKey } from "../services/auth.service";
 import { addNewUser } from "../services/users.service";
-import { createNewToken } from "../creationToken";
 import { findByEmail } from "../services/auth.service";
 import { createRefreshToken } from "../services/auth.service";
 import { verifyRefreshToken } from "../services/auth.service";
@@ -26,7 +25,7 @@ export const signup = async (req: Request, res: Response) => {
   try {
     //se no aggiungo il nuovo user
     const newUser: IUser = await addNewUser(user);
-    const token = createNewToken(newUser.id, 30); //e un gli dò un token dandogli come parametro in entrata l'id di newUser e per quanti giorni deve durare
+    const token = createAccessToken(newUser._id); //e un gli dò un token dandogli come parametro in entrata l'id di newUser e per quanti giorni deve durare
     return res.status(200).json({ user: newUser, token }); //restituisco il nuovo utente con il token creato
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -43,7 +42,7 @@ export const login = async (req: Request, res: Response) => {
   }
 
   // Genera un nuovo refreshToken per questo login
-  const newRefreshToken = createRefreshToken(userByEmail.id);
+  const newRefreshToken = createRefreshToken(userByEmail._id);
 
   // Verifica il refreshToken solo se è stato fornito nella richiesta
   if (refreshToken) {
@@ -61,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
   }
 
   // Se tutte le verifiche sono passate, genera un nuovo token di accesso
-  const accessToken = createAccessToken(userByEmail.id);
+  const accessToken = createAccessToken(userByEmail._id);
 
   return res
     .status(200)

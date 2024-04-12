@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node --env-file .env ./dist/server.js",
-    "dev": "tsc && nodemon ./src/server.ts"
+    "start": "tsc && node ./dist/server.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon ./src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/dotenv": "^8.2.0",
+    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",

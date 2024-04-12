@@ -4,24 +4,30 @@ import { ICart } from "../interfaces/cart.interface";
 
 const cartSchema = new mongoose.Schema<ICart>(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userModel",
       required: true,
     },
-    products: [ // Questo è inutile, abbiamo deciso di usare un array di objectID (vedi ICart)
+    products: [
       {
-        product: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "productModel",
           required: true,
         },
+        name: String,
         quantity: {
           type: Number,
           required: true,
+          default: 0,
         },
       },
     ],
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
     isActive: {
       type: Boolean,
       required: true,
