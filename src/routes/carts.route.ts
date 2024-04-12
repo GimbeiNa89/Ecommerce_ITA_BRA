@@ -7,16 +7,15 @@ export const router = Router();
 router.get("/", (req, res) => {
     res.json({ message: "Carts" });
 });
-
-router.get("/:id", (req, res) => {
+router.post("/add/:id", (req, res) => {
     res.json({ message: "Cart" });
 });
 
-router.post("/", (req, res) => {
+router.delete("/remove/:id", (req, res) => {
     res.json({ message: "Cart" });
 });
 
-router.put("/:id", (req, res) => {
+router.delete("/clear", (req, res) => {
     res.json({ message: "Cart" });
 });
 
