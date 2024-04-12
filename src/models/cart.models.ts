@@ -16,10 +16,10 @@ const cartSchema = new mongoose.Schema<ICart>(
           ref: "productModel",
           required: true,
         },
-        name: String,
         quantity: {
           type: Number,
           required: true,
+          min: 1,
           default: 0,
         },
       },

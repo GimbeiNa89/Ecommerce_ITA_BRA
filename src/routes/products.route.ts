@@ -6,11 +6,12 @@ import {
   upToDateProduct,
   addProduct,
 } from "../controllers/product.controller";
+import { authByRole } from "../middleware/auth.middleware";
 
 export const router = Router();
 
 router.get("/", getProducts);
 router.get("/:id", getProductById);
-router.post("/", addProduct);
-router.put("/:id", upToDateProduct);
-router.delete("/:id", eliminatedProduct);
+router.post("/", authByRole("Admin"), addProduct);
+router.put("/:id", authByRole("Admin"),upToDateProduct);
+router.delete("/:id", authByRole("Admin"),eliminatedProduct);

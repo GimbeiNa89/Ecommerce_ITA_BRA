@@ -11,6 +11,7 @@ import { showCartByUserId } from "../services/cart.service";
 import { productModel } from "../models/product.model";
 import { showProductById } from "../services/products.service";
 import { showUserById } from "../services/users.service";
+import { cartModel } from "../models/cart.models";
 
 export const findAllOrders = async (req: Request, res: Response) => {
   const orders = await showOrders();
@@ -18,7 +19,7 @@ export const findAllOrders = async (req: Request, res: Response) => {
 
 export const upToDateOrder = async (req: Request, res: Response) => {
   const updateOrder: IOrder | null = await updateOrderServ(
-    req.params.id,
+    req.params._id,
     req.body
   );
   try {
@@ -49,7 +50,6 @@ export const findSpecificOrder = async (req: Request, res: Response) => {
 export const createNewOrder = async (req: Request, res: Response) => {
   // recupero l'id dell'utente dalla richiesta
   const userId = req.body.userId;
-  console.log(req.body);
   const user = await showUserById(userId);
   if (!user) {
     throw new Error(`User with id ${userId} not found`);
@@ -57,31 +57,31 @@ export const createNewOrder = async (req: Request, res: Response) => {
   console.log(user);
 
   // per l'utente recupero il carrello
-  const cart = await showCartByUserId(user.id);
+  const cart = await cartModel.findOne(userId);
   // per ogni prodotto nel carrello:
   // recupero il prezzo del prodotto
   let totalOrderAmount = 0.0;
   if (!cart) {
-    console.error('Cart o cart.products è null o non definito.');
-    return res.status(404).json({ message: 'Cart o cart.products è null o non definito.' });
+    return res
+      .status(404)
+      .json({ message: "Cart not found"});
   }
   for (const productId of cart.products) {
     const product = await showProductById(productId.toString());
     if (!product) {
       throw new Error(`Product with id ${productId} not found`);
     }
-    totalOrderAmount += product.price;
+    totalOrderAmount += cart.totalAmount;
   }
- 
+
   // sommo il totale con il prezzo del prodotto moltiplicato per la quantità specificata
   // recupero l'indirizzo e il metodo di spedizione dalla richiesta
 
   const newOrder: IOrder = {
     user: userId,
-    products: cart!.products,
     cart: cart!.id,
     total: totalOrderAmount,
-    status: "created"
+    status: "created",
     // status: creato
   };
   // salvo l'ordine nel DB mongo

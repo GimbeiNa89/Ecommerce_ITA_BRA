@@ -6,7 +6,7 @@ export const showProducts = async (): Promise<IProduct[]> => {
 };
 
 export const showProductById = async (id: string): Promise<IProduct | null> => {
-  return await productModel.findById(id);
+  return await productModel.findOne({id});
 };
 
 export const addNewProduct = async (

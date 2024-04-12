@@ -1,16 +1,17 @@
 import { Router } from "express";
+import { authByRole } from "../middleware/auth.middleware";
 import {
   findAllUsers,
   findUserById,
   deleteUserHandler,
   updateUserHandler,
-  addNewUserHandler,
+  // addNewUserHandler,
 } from "../controllers/user.controller";
 
 export const router = Router();
 
-router.get("/", findAllUsers);
+router.get("/", authByRole("Admin"),findAllUsers);
 router.get("/:id", findUserById);
-router.post("/", addNewUserHandler);
-router.put("/:id", updateUserHandler);
-router.delete("/:id", deleteUserHandler);
+// router.post("/", addNewUserHandler);
+router.put("/:id", authByRole("Admin"),updateUserHandler);
+router.delete("/:id", authByRole("Admin") ,deleteUserHandler);

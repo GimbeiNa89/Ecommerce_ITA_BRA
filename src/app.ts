@@ -12,11 +12,11 @@ app.get("/", (req, res) => {
   res.json({ message: "SERVER IS RUNNING!" });
 });
 
-app.use("/users", usersApi);
-app.use("/products", productsApi);
-app.use("/orders", ordersApi);
-app.use("/carts", cartsApi);
-app.use("/auth", authApi);
+app.use("/api/users", usersApi);
+app.use("/api/products", productsApi);
+app.use("/api/orders", ordersApi);
+app.use("/api/carts", cartsApi);
+app.use("/api/auth", authApi);
 
 
 export default app;

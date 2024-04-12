@@ -14,3 +14,10 @@ export const showCartByUserId = async (
 export const createCart = async (linekart: ICart): Promise<ICart> => {
   return await cartModel.create({ linekart });
 };
+
+export const updateCart = async (
+  id: string,
+  linekart: Partial<ICart>
+): Promise<ICart | null> => {
+  return await cartModel.findByIdAndUpdate(id, linekart);
+};

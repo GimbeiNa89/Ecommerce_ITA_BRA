@@ -14,13 +14,6 @@ const orderSchema = new mongoose.Schema<IOrder>(
       ref: "userModel",
       required: true,
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "productModel",
-        required: true,
-      },
-    ],
     total: {
       type: Number,
       required: true,

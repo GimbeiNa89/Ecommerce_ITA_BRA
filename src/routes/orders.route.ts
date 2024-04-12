@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authByRole } from "../middleware/auth.middleware";
 import {
   findAllOrders,
   upToDateOrder,
@@ -9,8 +10,8 @@ import {
 
 export const router = Router();
 
-router.get("/", findAllOrders);
+router.get("/", authByRole("Admin"), findAllOrders);
 router.get("/:id", findSpecificOrder);
 router.post("/", createNewOrder);
-router.put("/:id", upToDateOrder);
+router.put("/:id", authByRole("Admin"), upToDateOrder);
 router.delete("/:id", eliminateOrder);
