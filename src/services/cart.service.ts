@@ -1,4 +1,3 @@
-import { products } from "../data/products.data";
 import { ICart } from "../interfaces/cart.interface";
 import { cartModel } from "../models/cart.models";
 import { Types } from "mongoose";

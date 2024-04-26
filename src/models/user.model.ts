@@ -1,10 +1,13 @@
-import { Mongoose } from "mongoose";
 import mongoose from "mongoose";
 import { IUser } from "../interfaces/user.interface";
 
 const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
+      type: String,
+      required: true,
+    },
+    surname: {
       type: String,
       required: true,
     },
@@ -18,18 +21,27 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      required: false,
     },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    token: {
+      type: String,
+      required: false,
+    },
+    refreshToken: {
+      type: String,
+      required: false,
+    },
+    isOnline: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+    },
   },
+
   { timestamps: true }
 );
 export const userModel = mongoose.model("userModel", userSchema);

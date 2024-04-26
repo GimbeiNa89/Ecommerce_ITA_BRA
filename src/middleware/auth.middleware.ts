@@ -11,3 +11,13 @@ export const authByRole = (Permissions: string | string[]) => {
     }
   };
 };
+
+export const authByStatus = (status: boolean) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (status) {
+      next();
+    } else {
+      return res.status(401).json({ message: "You have to login first" });
+    }
+  };
+};

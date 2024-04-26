@@ -7,7 +7,6 @@ import {
   updateCart,
 } from "../services/cart.service";
 import { showProductById } from "../services/products.service";
-import { products } from "../data/products.data";
 
 export const createNewCart = async (req: Request, res: Response) => {
   const { userId, productId, quantity } = req.body as {

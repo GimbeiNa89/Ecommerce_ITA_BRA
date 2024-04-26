@@ -15,3 +15,5 @@ router.get("/:id", getProductById);
 router.post("/", authByRole("Admin"), addProduct);
 router.put("/:id", authByRole("Admin"),upToDateProduct);
 router.delete("/:id", authByRole("Admin"),eliminatedProduct);
+
+//IL controller implementa la logica, il cervello dell'api.

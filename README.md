@@ -70,7 +70,7 @@ o ha qualche mancanza a livello di sicurezza.
 # API di autenticazione:
 
 POST /api/auth/register: Permette agli utenti generici di registrarsi fornendo le informazioni necessarie come nome, email e password.
-POST /api/auth/admin/register: Permette agli utenti admin di registrarsi fornendo le informazioni necessarie come nome, email e password. **_
+POST /api/auth/admin/register: Permette agli utenti admin di registrarsi fornendo le informazioni necessarie come nome, email e password. ***
 POST /api/auth/login: Consente agli utenti di effettuare l'accesso utilizzando le proprie credenziali.
 GET /api/auth/logout: Permette agli utenti di disconnettersi. _**
 GET /api/auth/user: Restituisce le informazioni dell'utente attualmente autenticato (generico o Admin).

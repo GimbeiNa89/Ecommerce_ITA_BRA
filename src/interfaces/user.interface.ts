@@ -6,11 +6,9 @@ export interface IUser {
   surname: string;
   email: string;
   password: string;
-  role: string;
-  cart: Schema.Types.ObjectId[];
-  tokens: [
-    {
-      token: string;
-    }
-  ];
+  token?: string;
+  role?: string;
+  refreshToken?: string;
+  isOnline: boolean;
+  cart?: Schema.Types.ObjectId[];
 }
