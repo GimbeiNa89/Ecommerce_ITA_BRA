@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     role: {
       type: String,
-      required: false,
+      default: "user",
     },
     token: {
       type: String,
@@ -44,4 +44,4 @@ const userSchema = new mongoose.Schema<IUser>(
 
   { timestamps: true }
 );
-export const userModel = mongoose.model("userModel", userSchema);
+export const User = mongoose.model("User", userSchema);

@@ -9,11 +9,11 @@ const productSchema = new Mongoose.Schema<IProduct>(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     imageURL: {
       type: String,
-      required: true,
+      required: false,
     },
     price: {
       type: Number,
@@ -23,4 +23,4 @@ const productSchema = new Mongoose.Schema<IProduct>(
   { timestamps: true }
 );
 
-export const productModel = Mongoose.model("productModel", productSchema);
+export const Product = Mongoose.model("Product", productSchema);

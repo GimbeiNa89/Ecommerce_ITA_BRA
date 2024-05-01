@@ -9,6 +9,6 @@ export interface IUser {
   token?: string;
   role?: string;
   refreshToken?: string;
-  isOnline: boolean;
+  isOnline?: boolean;
   cart?: Schema.Types.ObjectId[];
 }

@@ -1,0 +1,10 @@
+GET http://localhost:3000/api/auth/user
+Content-Type: application/json
+Accept: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MmZiZmMxNjZkNjY5MmVkMjlmNTk2MCIsImlhdCI6MTcxNDQ4MDE4NywiZXhwIjoxNzE0NDgxMDg3fQ.12d2Nbu6ac-56XkCv9sP5gHlsDXD9trBOfuatp738uw
+
+{
+  "email": "stringa@g.com"
+}
+
+

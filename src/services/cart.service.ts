@@ -1,22 +1,32 @@
+import { ObjectId } from "mongodb";
 import { ICart } from "../interfaces/cart.interface";
-import { cartModel } from "../models/cart.models";
+import { Cart } from "../models/cart.models";
 import { Types } from "mongoose";
+import { ImportDeclaration } from "typescript";
 
 export const showCartByUserId = async (
-  userIdAsString: string
+  userId: string
 ): Promise<ICart | null> => {
-  let userId = new Types.ObjectId(userIdAsString);
-  const cart = await cartModel.findOne({ user: userId });
-  return cart;
+  /*let user = new Types.ObjectId(userId);
+  const cart = */return await Cart.findById({ user: userId });
+  // return cart;
+};
+
+export const showCart = async (cartId: string): Promise<ICart | null> => {
+  return await Cart.findById(cartId);
 };
 
 export const createCart = async (linekart: ICart): Promise<ICart> => {
-  return await cartModel.create({ linekart });
+  return await Cart.create(linekart);
 };
 
 export const updateCart = async (
   id: string,
   linekart: Partial<ICart>
 ): Promise<ICart | null> => {
-  return await cartModel.findByIdAndUpdate(id, linekart);
+  return await Cart.findByIdAndUpdate(id, linekart);
+};
+
+export const deleteProduct = async (_id: string): Promise<ICart | null> => {
+  return await Cart.findByIdAndDelete(_id);
 };

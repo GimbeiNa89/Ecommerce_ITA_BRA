@@ -1,9 +1,9 @@
 import { Schema } from "mongoose";
 
 export interface IProduct {
-  id?: string;
+  _id?: string;
   name: string;
-  description: string;
-  imageURL: string;
+  description?: string;
+  imageURL?: string;
   price: number;
 }

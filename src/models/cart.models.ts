@@ -1,38 +1,40 @@
-import { Mongoose } from "mongoose";
+import { Mongoose, Schema, Types } from "mongoose";
 import mongoose from "mongoose";
-import { ICart } from "../interfaces/cart.interface";
+import { ICart, ICartItem } from "../interfaces/cart.interface";
 
-const cartSchema = new mongoose.Schema<ICart>(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userModel",
-      required: true,
-    },
-    products: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "productModel",
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-          default: 0,
-        },
-      },
-    ],
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    isActive: {
-      type: Boolean,
-      required: true,
-    },
+const cartSchema = new mongoose.Schema<ICart>({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
-  { timestamps: true }
-);
-export const cartModel = mongoose.model("cartModel", cartSchema);
+  ICartItem: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "CartItem",
+    },
+  ],
+  totalAmount: {
+    type: Number,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+export const Cart = mongoose.model("Cart", cartSchema);
+
+const cartItemSchema = new mongoose.Schema<ICartItem>({
+  productId: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
+
+export const CartItem = mongoose.model("CartItem", cartItemSchema);

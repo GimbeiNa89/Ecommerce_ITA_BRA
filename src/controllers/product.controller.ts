@@ -3,16 +3,16 @@ import { Request, Response } from "express";
 import {
   deleteProduct,
   addNewProduct,
-  showProducts,
-  showProductById,
+  findProducts,
+  findProductById,
   updateProduct,
 } from "../services/products.service";
 
 export const getProductById = async (req: Request, res: Response) => {
   try {
-    const products = await showProductById(req.params.id);
-    if (products) {
-      res.status(200).json(products);
+    const product = await findProductById(req.params.id);
+    if (product) {
+      res.status(200).json(product);
     } else {
       throw new Error("product not found");
     }
@@ -23,7 +23,7 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await showProducts();
+    const products = await findProducts();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json("message:errore");
@@ -56,12 +56,12 @@ export const eliminatedProduct = async (req: Request, res: Response) => {
 
 export const upToDateProduct = async (req: Request, res: Response) => {
   const product = await updateProduct(req.params.id, req.body);
-  if(!product) {
-    res.status(404).json({message: "product not found"});
+  if (!product) {
+    res.status(404).json({ message: "product not found" });
   }
-  try {    
-      res.status(200).json({ message: "product updated", product });
-    } catch (error) {
+  try {
+    res.status(200).json({ message: "product updated", product });
+  } catch (error) {
     res.status(500).json(error);
   }
 };
